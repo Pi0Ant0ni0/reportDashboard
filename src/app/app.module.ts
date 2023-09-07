@@ -1,4 +1,4 @@
-import {LOCALE_ID, NgModule} from '@angular/core';
+import {APP_INITIALIZER, LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -21,6 +21,9 @@ import {MatDialogModule} from "@angular/material/dialog";
 
 import localePt from '@angular/common/locales/pt';
 import {registerLocaleData} from "@angular/common";
+import {initializeKeycloak} from "./keycloak/keycloack-initialization";
+import {KeycloakService} from "keycloak-angular";
+import {AuthService} from "./keycloak/auth.service";
 registerLocaleData(localePt, 'pt-IT');
 @NgModule({
   declarations: [
@@ -47,7 +50,15 @@ registerLocaleData(localePt, 'pt-IT');
     MatDialogModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'pt-BR' }
+    KeycloakService,
+    { provide: LOCALE_ID, useValue: 'pt-IT'},
+  {
+    provide: APP_INITIALIZER,
+    useFactory: initializeKeycloak,
+    multi: true,
+    deps: [KeycloakService],
+  },
+      AuthService
   ],
   bootstrap: [AppComponent]
 })
