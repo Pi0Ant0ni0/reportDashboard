@@ -8,11 +8,12 @@ export function initializeKeycloak(
             config: {
                 url: 'https://193.206.108.146:32410',
                 realm: 'master',
-                clientId: 'reportGUI',
+                clientId: 'report-gui',
+
             },
             initOptions: {
-                onLoad: 'check-sso',
-                silentCheckSsoRedirectUri:
-                    window.location.origin + '/assets/silent-check-sso.html'
+                pkceMethod: 'S256',
+                redirectUri: 'http://localhost:4200/*',
+                checkLoginIframe: false
             }});
 }
