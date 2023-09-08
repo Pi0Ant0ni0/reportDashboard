@@ -46,12 +46,16 @@ export class ReportsTableComponent implements OnInit{
   ngOnInit(): void {
     this.startDateController= new FormControl<any>(null);
     this.endDateController= new FormControl<any>(null);
-    this.loggedUser = this._authService.getLoggedUser()!;
 
-    this.endDateController.valueChanges.subscribe((endDate:Date)=>{
-      let startDate:Date = this.startDateController.value;
-      this._fetchData(startDate,endDate);
-    });
+    this.loggedUser = this._authService.getLoggedUser()!;
+    if(this.loggedUser){
+      this.endDateController.valueChanges.subscribe((endDate:Date)=>{
+        let startDate:Date = this.startDateController.value;
+        this._fetchData(startDate,endDate);
+      });
+      this._setDefaultTemporalRange();
+    }
+
   }
 
   private _fetchData(startDate: Date, endDate: Date) {
@@ -88,5 +92,13 @@ export class ReportsTableComponent implements OnInit{
         id: row.id
       }
     })
+  }
+
+  private _setDefaultTemporalRange() {
+    let startDate =  moment().subtract(30, 'days'); // or...
+    let endDate =moment();
+    this.startDateController.patchValue(startDate.toDate());
+    this.endDateController.patchValue(endDate.toDate());
+
   }
 }
