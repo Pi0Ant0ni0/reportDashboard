@@ -1,0 +1,6 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>Dettaglio Report</span>
+    </mat-toolbar-row>
+</mat-toolbar>
+<app-details-table *ngIf="reportDetails" [reportDetails]="reportDetails" [reportType]="reportType"></app-details-table>

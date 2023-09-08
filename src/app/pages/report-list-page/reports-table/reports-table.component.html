@@ -1,0 +1,69 @@
+<mat-grid-list cols="3" rowHeight="2:1">
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile>
+        <div class="card" *ngIf="loggedUser" style="margin: 8px;">
+            <div class="card-text">
+                <div class="portada"></div>
+                <div class="title-total">
+                    <div class="title">Benvenuto</div>
+                    <h2>{{loggedUser.fullName}}</h2>
+
+                    <div class="desc"><b>{{role}}</b> del tribunale di {{loggedUser.tribunale}}<br>
+                        <b>Sezione:</b> {{loggedUser.sezione}}</div>
+                    <div style="text-align: right">
+                        <button mat-mini-fab color="warn" aria-label="Logout" (click)="logout()">
+                            <mat-icon>logout</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+
+
+</mat-grid-list>
+
+
+<div style="text-align:center; margin-top: 20px; margin-bottom: 20px">
+    <mat-form-field style="width: 37%">
+        <mat-label>Selezionare un intervallo temporale </mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+            <input matStartDate placeholder="Start date" [formControl]="startDateController" name="startDate">
+            <input matEndDate placeholder="End date" [formControl]="endDateController" name="endDate">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+</div>
+<div style="width: 37%; margin: auto;">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container>
+            <ng-container
+                    [matColumnDef]="column.columnLabel"
+                    *ngFor="let column of itemTableProperties"
+            >
+                <th mat-header-cell *matHeaderCellDef>{{ column.columnLabel }}</th>
+                <td mat-cell *matCellDef="let element">
+                    {{ element[column.itemProperty] }}
+                </td>
+            </ng-container>
+        </ng-container>
+
+
+            <ng-container matColumnDef="Azioni">
+                <th mat-header-cell *matHeaderCellDef>Azioni</th>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-icon-button aria-label="Dettaglio" (click)="viewDetails(element)"  matTooltip="Dettaglio">
+                        <mat-icon>visibility icon</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columns" style="background-color: #3f51b5; color: white"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+</div>
+
+
+
